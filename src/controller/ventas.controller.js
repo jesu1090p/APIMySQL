@@ -35,7 +35,7 @@ export const createVentas = async (req, res) => {
             console.log(rows);
             
             res.send({
-                codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta 
+                id:rows.insertId, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta 
             });
         } catch (error) {
             return res.status(500).json({ message: `Ha ocurrido un error${error}`  });
