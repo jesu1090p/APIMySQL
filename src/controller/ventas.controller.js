@@ -27,18 +27,18 @@ export const getVenta = async(req,res) => {
 //Crear Ventas
 export const createVentas = async (req, res) => {
         console.log(req.body);
-        const { codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta } = req.body; // Cambié "Nombre_cliente" a "nombre_cliente"
+        const { codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta } = req.body; 
         
         try {
-            const [rows] = await pool.query('INSERT INTO ventas (codigo_producto, Nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta) VALUES (?,?,?,?,?,?)', [codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta]); // Cambié "Nombre_cliente" a "nombre_cliente"
+            const [rows] = await pool.query('INSERT INTO sales (codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta) VALUES (?,?,?,?,?,?)', [codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta]); 
             
             console.log(rows);
             
             res.send({
-                codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta // Cambié "Nombre_cliente" a "nombre_cliente"
+                codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta 
             });
         } catch (error) {
-            return res.status(500).json({ message: 'Ha ocurrido un error' });
+            return res.status(500).json({ message: 'Ha ocurrido un error' + error  });
         }
     }
     
@@ -47,7 +47,7 @@ export const updateVentas = async (req,res)=>{
     const {codigo} = req.params
     const {codigo_producto,nombre_cliente,telefono_cliente,fecha_venta,cantidad_vendida,total_venta} = req.body;
     try {
-        const [result] = await pool.query('UPDATE ventas SET codigo_producto=?, Nombre_cliente=?, telefono_cliente=IFNULL(?, telefono_cliente), fecha_venta=IFNULL(?, fecha_venta), cantidad_vendida=?, total_venta=? WHERE codigo = ?', [codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta, codigo]);
+        const [result] = await pool.query('UPDATE ventas SET codigo_producto=?, nombre_cliente=?, telefono_cliente=IFNULL(?, telefono_cliente), fecha_venta=IFNULL(?, fecha_venta), cantidad_vendida=?, total_venta=? WHERE codigo = ?', [codigo_producto, nombre_cliente, telefono_cliente, fecha_venta, cantidad_vendida, total_venta, codigo]);
 
         if (result.affectedRows<=0) {
             return res.status(404).json({message:'Venta no registrado'})
@@ -55,7 +55,7 @@ export const updateVentas = async (req,res)=>{
         const [rows] = await pool.query('SELECT * FROM ventas WHERE codigo=?',[codigo])
         res.json(rows[0])
     } catch (error) {
-        return res.status(500).json({message: 'Ha ocurrido un error'});
+        return res.status(500).json({message: 'Ha ocurrido un error'+ error});
     }
 }
 
